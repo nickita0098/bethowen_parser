@@ -40,14 +40,14 @@ def get_category_list(url):
 
     data = fetch_data(url)
     main_categories = data.get('categories', [])
-    return extract_ids(main_categories)  # -> List[int]
+    return extract_ids(main_categories)
 
 def fetch_items(url, category_id, offset, limit):
     params = {'limit': limit, 'offset': offset, 'sort_type': 'popular', 'category_id': category_id}
     return fetch_data(url, params)
 
 def write_items_to_csv(url, category_ids):
-    with open('countries.csv', 'w', encoding='UTF8') as f:
+    with open('bethowen_products.csv', 'w', encoding='UTF8') as f:
         writer = csv.writer(f)
 
         with ThreadPoolExecutor(max_workers=10) as executor:
@@ -59,7 +59,7 @@ def write_items_to_csv(url, category_ids):
                 try:
                     initial_response = fetch_data(url, params)
                 except RetryError:
-                    print(f"Не удалось получить начальные данные для категории {category_id} после повторных попыток.")
+                    print(f"Не удалось получить данные для категории {category_id}")
                     continue
 
                 max_count = initial_response.get('metadata', {}).get('count', 0)
@@ -76,7 +76,7 @@ def write_items_to_csv(url, category_ids):
                 try:
                     data = future.result()
                 except RetryError:
-                    print("Не удалось получить данные о товарах после повторных попыток.")
+                    print("Не удалось получить данные")
                     continue
 
                 products = data.get('products', [])
