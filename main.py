@@ -1,9 +1,11 @@
 import csv
 import configparser
 from urllib.parse import quote
+
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+
 
 config = configparser.ConfigParser()
 config.read("config.ini")
