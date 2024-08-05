@@ -89,7 +89,7 @@ def write_items_to_csv(url, category_ids):
 
 def main():
     if not CATEGORY_ID:
-        category_ids = get_category_list(url=CATEGORIES_URL)[:2]
+        category_ids = get_category_list(url=CATEGORIES_URL)
         write_items_to_csv(url=ITEMS_URL, category_ids=category_ids)
     else:
         write_items_to_csv(url=ITEMS_URL, category_ids=(CATEGORY_ID,))
